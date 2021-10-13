@@ -12,6 +12,8 @@ const Home: NextPage = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen text-4xl">
       <h1>Munkey</h1>
+      <button>{}</button>
+
     </div>
   );
 };
