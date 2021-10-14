@@ -11,12 +11,15 @@ const Home: NextPage = () => {
   const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");
   const user = useContext(AuthContext);
+  let button = <Button>Login</Button>;
+  if (user) {
+    button = <Button>Enter</Button>;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center h-screen text-4xl">
       <h1>Munkey</h1>
-      <button>{user }</button>
-
+      {button}
     </div>
   );
 };
