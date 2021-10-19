@@ -3,6 +3,7 @@ module.exports = messages = [
     subject: "Addition of 8 Troops to Belarus",
     body: "hihi",
     read: false,
+    id: "shit"
   },
   {
     subject: "Destruction of 3 Factories in Russia",

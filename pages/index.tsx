@@ -7,14 +7,16 @@ import Stack from "@mui/material/Stack";
 import { useState } from "react";
 import AuthContext from "util/authContext";
 import { useContext } from "react";
+import Link from "next/link";
+
 const Home: NextPage = () => {
   const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");
   const user = useContext(AuthContext);
   let button = (
-    <Button variant="contained">
-      <a href="/login">Login</a>
-    </Button>
+    <button className="bg-main text-white px-10 py-2 rounded-full">
+      <Link href="/login">Login</Link>
+    </button>
   );
   if (user.user !== undefined) {
     button = <Button variant="contained">Enter</Button>;
@@ -28,5 +30,8 @@ const Home: NextPage = () => {
     </div>
   );
 };
+
+
+
 
 export default Home;

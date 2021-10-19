@@ -17,15 +17,19 @@ export default function UserDashboard() {
   let messageComponents = messages.map((message) => {
     if (message.read === false) {
       return (
-        <div className="w-full py-4 font-bold shadow-md z-10 rounded-lg">
-          <li className="px-4 ">{message.subject}</li>
-        </div>
+        <Link href={`/messages/${message.id}`}>
+          <div className="w-full py-4 font-bold shadow-md z-10 rounded-lg">
+            <li className="px-4 ">{message.subject}</li>
+          </div>
+        </Link>
       );
     } else {
       return (
-        <div className="w-full py-4  font-thin">
-          <li className="px-4">{message.subject}</li>
-        </div>
+        <Link href={`/messages/${message.id}`}>
+          <div className="w-full py-4  font-thin">
+            <li className="px-4">{message.subject}</li>
+          </div>
+        </Link>
       );
     }
   });
@@ -35,9 +39,11 @@ export default function UserDashboard() {
   return (
     <div>
       <nav className="grid grid-cols-5 h-36 bg-main font-bold">
-        <div className="flex justify-center items-center">
-          <h1 className="text-5xl text-white">Munkey</h1>
-        </div>
+        <Link href="/">
+          <a className="flex justify-center items-center">
+            <h1 className="text-5xl text-white">Munkey</h1>
+          </a>
+        </Link>
         <div className="col-start-3">
           <h2 className="flex items-center h-36 text-2xl text-supersub">
             You are: &nbsp;
