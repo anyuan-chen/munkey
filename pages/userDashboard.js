@@ -51,7 +51,7 @@ export default function UserDashboard() {
 
       <div className="flex">
         {/*code for the resources section}*/}
-        <div className="flex h-screen/2 flex-col shadow-md w-screen/4 m-8">
+        <div className="flex h-screen-30 flex-col shadow-md w-screen/4 m-8 rounded-3xl">
           <div className="font-bold text-lg p-8">
             <h1>Your Resources</h1>
           </div>
@@ -59,13 +59,15 @@ export default function UserDashboard() {
             <ul className="space-y-5">{resources}</ul>
           </div>
         </div>
-        <div className="m-8 shadow-md w-screen h-screen/2">
-          <div >
-            <ul className="overflow-y-scroll overflow-hidden h-screen/2">{messageComponents}</ul>
+        <div className="m-8 shadow-md w-screen h-screen-30 grid grid-rows-6 rounded-3xl">
+          <ul className="overflow-y-scroll overflow-hidden row-span-5">
+            {messageComponents}
+          </ul>
+          <div className="flex items-center pl-5">
+            <button className="bg-main font-thin text-white px-10 py-2 rounded-full">
+              <Link href="/">Create</Link>
+            </button>
           </div>
-          <button className="bg-main font-thin text-white px-10 py-2 rounded-full">
-            <Link href="/">Create</Link>
-          </button>
         </div>
       </div>
     </div>

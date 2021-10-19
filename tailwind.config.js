@@ -14,6 +14,7 @@ module.exports = {
         supersub: "#C9DFFF",
       },
       height: {
+        "screen-30": "70vh",
         "screen/2": "50vh",
         "screen/3": "33vh",
         "screen/4": "25vh",
