@@ -1,6 +1,8 @@
 import React from "react";
 import crisisResources from "../fake-data/resources";
 import Link from "next/link";
+import messages from "../fake-data/messages";
+
 export default function UserDashboard() {
   let resources = [];
   for (const resource in crisisResources) {
@@ -11,6 +13,22 @@ export default function UserDashboard() {
       </li>
     );
   }
+
+  let messageComponents = messages.map((message) => {
+    if (message.read === false) {
+      return (
+        <div className="w-full py-4 font-bold shadow-md z-10 rounded-lg">
+          <li className="px-4 ">{message.subject}</li>
+        </div>
+      );
+    } else {
+      return (
+        <div className="w-full py-4  font-thin">
+          <li className="px-4">{message.subject}</li>
+        </div>
+      );
+    }
+  });
 
   const userName = "Delegate 1";
 
@@ -41,11 +59,11 @@ export default function UserDashboard() {
             <ul className="space-y-5">{resources}</ul>
           </div>
         </div>
-        <div className="m-8 shadow-md w-screen">
-          <div>
-            
+        <div className="m-8 shadow-md w-screen h-screen/2">
+          <div >
+            <ul className="overflow-y-scroll overflow-hidden h-screen/2">{messageComponents}</ul>
           </div>
-          <button className="bg-main font-thin text-white px-10 py-2 rounded-full"> 
+          <button className="bg-main font-thin text-white px-10 py-2 rounded-full">
             <Link href="/">Create</Link>
           </button>
         </div>
