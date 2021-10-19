@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
@@ -9,7 +10,7 @@ import { auth } from "../firebase/clientApp";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import AuthContext from "util/authContext";
 import { useContext } from "react";
-import Router from 'next/router'
+import Router from "next/router";
 
 const Register: NextPage = (event) => {
   const [email, setEmail] = useState("");
@@ -57,7 +58,12 @@ const Register: NextPage = (event) => {
             onChange={(event) => setPassword(event.target.value)}
           />{" "}
           <Button variant="contained" type="submit">
-            Login
+            Register
+          </Button>
+          <Button variant="outlined">
+            <Link href="/login">
+              <a>Login</a>
+            </Link>
           </Button>
         </Stack>
       </form>

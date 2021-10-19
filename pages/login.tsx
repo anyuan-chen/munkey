@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
@@ -60,6 +61,11 @@ const Login: NextPage = (event) => {
           />{" "}
           <Button variant="contained" type="submit">
             Login
+          </Button>
+          <Button variant="outlined">
+            <Link href="/register">
+              <a>Register</a>
+            </Link>
           </Button>
         </Stack>
       </form>
