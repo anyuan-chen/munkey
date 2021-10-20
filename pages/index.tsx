@@ -8,7 +8,14 @@ import { useState } from "react";
 import AuthContext from "util/authContext";
 import { useContext } from "react";
 import Link from "next/link";
+import {auth} from "../firebase/clientApp";
 
+export async function getStaticProps(context) {
+  
+  return {
+    props: {}, // will be passed to the page component as props
+  };
+}
 const Home: NextPage = () => {
   const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");
@@ -23,15 +30,10 @@ const Home: NextPage = () => {
   }
   return (
     <div className="flex flex-col items-center justify-center h-screen text-4xl">
-      <Stack spacing={3}>
-        <h1>Munkey</h1>
-        {button}
-      </Stack>
+      <h1>Munkey</h1>
+      {button}
     </div>
   );
 };
-
-
-
 
 export default Home;
