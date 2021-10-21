@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import crisisResources from "../fake-data/resources";
+import crisisResources from "../../fake-data/resources";
 import Link from "next/link";
-import messages from "../fake-data/messages";
+import messages from "../../fake-data/messages";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../firebase/clientApp";
+import { db } from "../../firebase/clientApp";
 import { useAuth } from "context/useAuth";
+import directives from "../../fake-data/directives";
 
 export default function UserDashboard() {
   let resources = [];
@@ -16,6 +17,10 @@ export default function UserDashboard() {
       </li>
     );
   }
+
+  let directiveComponents = directives.map((message) => {
+    return <Link href={message.link}>{message.subject}</Link>;
+  });
 
   let messageComponents = messages.map((message) => {
     if (message.read === false) {
@@ -78,6 +83,12 @@ export default function UserDashboard() {
           <div className="p-8">
             <ul className="space-y-5">{resources}</ul>
           </div>
+          <div className="font-bold text-lg p-8">
+            <h1>Public Directives</h1>
+          </div>
+          <div className="p-8">
+            <ul className="space-y-5">{directiveComponents}</ul>
+          </div>
         </div>
         <div className="m-8 shadow-md w-screen h-screen-30 grid grid-rows-6 rounded-3xl">
           <ul className="overflow-y-scroll overflow-hidden row-span-5">
@@ -85,7 +96,7 @@ export default function UserDashboard() {
           </ul>
           <div className="flex items-center pl-5">
             <button className="bg-main font-thin text-white px-10 py-2 rounded-full">
-              <Link href="/">Create</Link>
+              <Link href="/userDashboard/createPrivateDirective">Create</Link>
             </button>
           </div>
         </div>
