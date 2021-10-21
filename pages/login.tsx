@@ -7,35 +7,23 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { useState } from "react";
 import { auth } from "../firebase/clientApp";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import AuthContext from "util/authContext";
-import { useContext } from "react";
 import Router from "next/router";
+import { useAuth } from "context/useAuth";
 
 const Login: NextPage = (event) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const user = useContext(AuthContext);
+  const { login } = useAuth();
 
   const addUser = (event) => {
     event.preventDefault();
     console.log("hi");
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const curUser = userCredential.user;
-        user.update({
-          user: curUser,
-        });
-        console.log(user);
-        const { pathname } = Router;
-        Router.push("/");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage);
-      });
+    login(email, password).then((authUser) => {
+      console.log(authUser);
+      Router.push("/userDashboard");
+    });
   };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen text-4xl">
       <form className="w-96" onSubmit={addUser}>
