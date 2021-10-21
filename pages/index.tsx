@@ -9,12 +9,7 @@ import { useContext } from "react";
 import Link from "next/link";
 import {auth} from "../firebase/clientApp";
 
-export async function getStaticProps(context) {
-  
-  return {
-    props: {}, // will be passed to the page component as props
-  };
-}
+
 const Home: NextPage = () => {
   const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");

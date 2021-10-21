@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import crisisResources from "../fake-data/resources";
 import Link from "next/link";
 import messages from "../fake-data/messages";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../firebase/clientApp";
+import { useAuth } from "context/useAuth";
 
 export default function UserDashboard() {
   let resources = [];
@@ -34,7 +37,18 @@ export default function UserDashboard() {
     }
   });
 
-  const userName = "Delegate 1";
+  const [userName, setUserName] = useState("Delegate 1");
+
+  const { currentUser } = useAuth();
+  useEffect(async () => {
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where("email", "==", currentUser.email));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      setUserName(doc.data().delegateName);
+      console.log(doc.id, " => ", doc.data());
+    });
+  }, []);
 
   return (
     <div>

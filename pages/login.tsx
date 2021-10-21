@@ -6,7 +6,6 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { useState } from "react";
-import { auth } from "../firebase/clientApp";
 import Router from "next/router";
 import { useAuth } from "context/useAuth";
 

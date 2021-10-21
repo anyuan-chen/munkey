@@ -1,38 +1,33 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
 import Link from "next/link";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { useState } from "react";
-import { auth } from "../firebase/clientApp";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import AuthContext from "util/authContext";
-import { useContext } from "react";
+import { useAuth } from "context/useAuth";
 import Router from "next/router";
+import { db } from "../firebase/clientApp";
+import { collection, addDoc } from "firebase/firestore";
 
-const Register: NextPage = (event) => {
+const Register = (event) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const user = useContext(AuthContext);
+  const { signup, currentUser } = useAuth();
 
-  const addUser = (event) => {
+  const addUser = async (event) => {
     event.preventDefault();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const curUser = userCredential.user;
-        user.update({
-          user: curUser,
+    signup(email, password).then(async (authUser) => {
+      console.log(authUser);
+      Router.push("/userDashboard");
+      try {
+        const docRef = await addDoc(collection(db, "users"), {
+          email: currentUser.email,
+          delegateName: "Japan",
         });
-        const { pathname } = Router;
-        Router.push("/");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage);
-      });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    });
   };
   return (
     <div className="flex flex-col items-center justify-center h-screen text-4xl">

@@ -39,6 +39,6 @@ export default function useFirebaseAuth() {
     loading,
     signup,
     login,
-    signout
+    signout,
   };
 }
