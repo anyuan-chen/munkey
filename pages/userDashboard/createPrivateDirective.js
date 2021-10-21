@@ -16,12 +16,13 @@ export default function CreatePrivateDirective() {
     try {
       const docRef = await addDoc(collection(db, "private-directives"), {
         subject: subject,
-        sender: currentUser,
+        sender: currentUser.email,
         recipient: recipient,
         body: body,
+        read: true,
       });
-      setBody("");
       setSubject("");
+      setRecipient("");
       setBody("");
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {

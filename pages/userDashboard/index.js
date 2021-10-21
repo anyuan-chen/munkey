@@ -8,6 +8,10 @@ import { useAuth } from "context/useAuth";
 import directives from "../../fake-data/directives";
 
 export default function UserDashboard() {
+  const [userName, setUserName] = useState("Delegate 1");
+  const [messages, setMessages] = useState([]);
+  const { currentUser } = useAuth();
+
   let resources = [];
   for (const resource in crisisResources) {
     resources.push(
@@ -22,37 +26,61 @@ export default function UserDashboard() {
     return <Link href={message.link}>{message.subject}</Link>;
   });
 
-  let messageComponents = messages.map((message) => {
-    if (message.read === false) {
-      return (
-        <Link href={`/messages/${message.id}`}>
-          <div className="w-full py-4 font-bold shadow-md z-10 rounded-lg">
-            <li className="px-4 ">{message.subject}</li>
-          </div>
-        </Link>
-      );
-    } else {
-      return (
-        <Link href={`/messages/${message.id}`}>
-          <div className="w-full py-4  font-thin">
-            <li className="px-4">{message.subject}</li>
-          </div>
-        </Link>
-      );
-    }
-  });
-
-  const [userName, setUserName] = useState("Delegate 1");
-
-  const { currentUser } = useAuth();
+  const [messageComponents, setMessageComponents] = useState();
   useEffect(async () => {
     const usersRef = collection(db, "users");
-    const q = query(usersRef, where("email", "==", currentUser.email));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
+    const userq = query(usersRef, where("email", "==", currentUser.email));
+    const userQuerySnapshot = await getDocs(userq);
+    userQuerySnapshot.forEach((doc) => {
       setUserName(doc.data().delegateName);
       console.log(doc.id, " => ", doc.data());
     });
+
+    const messageRef = collection(db, "private-directives");
+    const messageSentq = query(
+      messageRef,
+      where("sender", "==", currentUser.email)
+    );
+    const messageRecievedq = query(
+      messageRef,
+      where("recipient", "==", currentUser.email)
+    );
+    const messageSentQuerySnapshot = await getDocs(messageSentq);
+    const messageRecievedQuerySnapshot = await getDocs(messageRecievedq);
+
+    messageSentQuerySnapshot.forEach((doc) => {
+      const tmpMessages = messages;
+      tmpMessages.push(doc.data());
+      setMessages(tmpMessages);
+      console.log(doc.data());
+    });
+    messageRecievedQuerySnapshot.forEach((doc) => {
+      const tmpMessages = messages;
+      tmpMessages.push(doc.data());
+      setMessages(tmpMessages);
+      console.log(doc.data());
+    });
+    setMessageComponents(
+      messages.map((message) => {
+        if (message.read === false) {
+          return (
+            <Link href={`/messages/${message.id}`}>
+              <div className="w-full py-4 font-bold shadow-md z-10 rounded-lg">
+                <li className="px-4 ">{message.subject}</li>
+              </div>
+            </Link>
+          );
+        } else {
+          return (
+            <Link href={`/messages/${message.id}`}>
+              <div className="w-full py-4  font-thin">
+                <li className="px-4">{message.subject}</li>
+              </div>
+            </Link>
+          );
+        }
+      })
+    );
   }, []);
 
   return (
