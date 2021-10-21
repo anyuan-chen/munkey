@@ -21,24 +21,28 @@ const Login: NextPage = (event) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen text-4xl">
-      <form className="w-96" onSubmit={addUser}>
-        <h1 className="text-5xl ">Munkey</h1>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <form className="w-96 flex flex-col space-y-4" onSubmit={addUser}>
+        <h1 className="text-5xl font-body">Munkey</h1>
         <input
           type="text"
           value={email}
+          placeholder="email"
+          className="rounded-xl"
           onChange={(event) => setEmail(event.target.value)}
         />
         <input
           type="password"
           value={password}
+          placeholder="password"
+          className="rounded-xl"
           onChange={(event) => setPassword(event.target.value)}
         />
-        <button type="submit">Login</button>
-        <button>
-          <Link href="/register">
-            <a>Register</a>
-          </Link>
+        <button
+          type="submit"
+          className="flex items-center justify-center bg-main rounded-xl text-white py-2"
+        >
+          Login
         </button>
       </form>
     </div>

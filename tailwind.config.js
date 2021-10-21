@@ -6,7 +6,7 @@ module.exports = {
     extend: {
       fontFamily: {
         display: ["Lora"],
-        body: ["Nunito"],
+        body: ["Poppins"],
       },
       colors: {
         main: "#428FDF",

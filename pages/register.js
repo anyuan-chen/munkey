@@ -1,7 +1,4 @@
 import Link from "next/link";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
 import { useState } from "react";
 import { useAuth } from "context/useAuth";
 import Router from "next/router";
@@ -11,7 +8,13 @@ import { collection, addDoc } from "firebase/firestore";
 const Register = (event) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [delegateName, setDelegateName] = useState("");
+  const [fields, setCustomFields] = useState([]);
   const { signup, currentUser } = useAuth();
+
+  const addField = (event) => {
+    fields.push()
+  }
 
   const addUser = async (event) => {
     event.preventDefault();
@@ -30,37 +33,52 @@ const Register = (event) => {
     });
   };
   return (
-    <div className="flex flex-col items-center justify-center h-screen text-4xl">
-      <form className="w-96" onSubmit={addUser}>
-        <Stack spacing={2}>
-          <h1>Register</h1>
-          <TextField
-            id="outlined-basic"
-            label="email"
-            variant="outlined"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-          <TextField
-            margin="normal"
-            fullWidth
-            name="password"
-            label="password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />{" "}
-          <Button variant="contained" type="submit">
+    <div className="flex flex-col items-center justify-center h-screen w-screen">
+      <form className="flex flex-col space-y-4  mx-32" onSubmit={addUser}>
+        <h1 className="text-3xl font-body">Info</h1>
+
+        <input
+          type="text"
+          value={email}
+          placeholder="email"
+          className="rounded-xl"
+          onChange={(event) => setEmail(event.target.value)}
+        />
+        <input
+          type="text"
+          value={delegateName}
+          placeholder="delegate name"
+          className="rounded-xl"
+          onChange={(event) => setDelegateName(event.target.value)}
+        />
+        <input
+          type="password"
+          value={password}
+          placeholder="password"
+          className="rounded-xl"
+          onChange={(event) => setPassword(event.target.value)}
+        />
+        <h1 className="text-3xl font-body">Resources</h1>
+
+        <div className="flex space-x-2">
+          <table>
+            <tr>
+              <th>Attribute</th>
+              <th>Value</th>
+            </tr>
+          </table>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <button className="font-body bg-main rounded-xl text-white py-2" onClick={addField}>
+            Add
+          </button>
+          <button
+            type="submit"
+            className="font-body bg-main rounded-xl text-white py-2"
+          >
             Register
-          </Button>
-          <Button variant="outlined">
-            <Link href="/login">
-              <a>Login</a>
-            </Link>
-          </Button>
-        </Stack>
+          </button>
+        </div>
       </form>
     </div>
   );
