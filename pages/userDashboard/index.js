@@ -28,14 +28,6 @@ export default function UserDashboard() {
 
   const [messageComponents, setMessageComponents] = useState();
   useEffect(async () => {
-    const usersRef = collection(db, "users");
-    const userq = query(usersRef, where("email", "==", currentUser.email));
-    const userQuerySnapshot = await getDocs(userq);
-    userQuerySnapshot.forEach((doc) => {
-      setUserName(doc.data().delegateName);
-      console.log(doc.id, " => ", doc.data());
-    });
-
     const messageRef = collection(db, "private-directives");
     const messageSentq = query(
       messageRef,
@@ -81,6 +73,16 @@ export default function UserDashboard() {
         }
       })
     );
+  }, []);
+  
+  useEffect(async () => {
+    const usersRef = collection(db, "users");
+    const userq = query(usersRef, where("email", "==", currentUser.email));
+    const userQuerySnapshot = await getDocs(userq);
+    userQuerySnapshot.forEach((doc) => {
+      setUserName(doc.data().delegateName);
+      console.log(doc.id, " => ", doc.data());
+    });
   }, []);
 
   return (
