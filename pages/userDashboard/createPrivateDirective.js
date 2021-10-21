@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../../firebase/clientApp";
+
 import { useAuth } from "context/useAuth";
 import Link from "next/link";
 export default function CreatePrivateDirective() {
@@ -8,8 +9,26 @@ export default function CreatePrivateDirective() {
   const [subject, setSubject] = useState("");
   const [recipient, setRecipient] = useState("");
   const [body, setBody] = useState("");
-
   const { currentUser } = useAuth();
+
+  const sendMessage = async (event) => {
+    event.preventDefault();
+    try {
+      const docRef = await addDoc(collection(db, "private-directives"), {
+        subject: subject,
+        sender: currentUser,
+        recipient: recipient,
+        body: body,
+      });
+      setBody("");
+      setSubject("");
+      setBody("");
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
   useEffect(async () => {
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("email", "==", currentUser.email));
@@ -39,7 +58,10 @@ export default function CreatePrivateDirective() {
         </div>
       </nav>
       <div>
-        <form className="flex flex-col m-32 space-y-4 font-body">
+        <form
+          className="flex flex-col m-32 space-y-4 font-body"
+          onSubmit={sendMessage}
+        >
           <h1 className="text-4xl ">Create Private Directive</h1>
           <div className="flex flex-col">
             <label>Subject</label>
@@ -67,9 +89,17 @@ export default function CreatePrivateDirective() {
               onChange={(event) => setBody(event.target.value)}
             ></textarea>
           </div>
-          <button className="flex items-center justify-center bg-main rounded-xl text-white py-2">
+          <button
+            className="flex items-center justify-center bg-main rounded-xl text-white py-2"
+            type="submit"
+          >
             Submit
           </button>
+          <Link href="/userDashboard">
+            <button className="flex items-center justify-center bg-main rounded-xl text-white py-2">
+              Back
+            </button>
+          </Link>
         </form>
       </div>
     </div>
